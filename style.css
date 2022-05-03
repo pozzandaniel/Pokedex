@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+}
+
+#pokemonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pokemon-card {
+    background-color: rgb(234, 234, 23);
+    height: 400px;
+    width: 230px;
+}
