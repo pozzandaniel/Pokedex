@@ -2,14 +2,35 @@ body {
     margin: 0;
 }
 
+.nav {
+    height: 80px;
+}
+
 #pokemonContainer {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
+    background-image: url('./img/background.jpg');
+    background-size: cover;
+    background-position: center;
+
 }
 
 .pokemon-card {
-    background-color: rgb(234, 234, 23);
+    border: 2px groove rgba(220, 220, 220, 0.3);
+    box-shadow: 6px 0 12px 0 rgba(220, 220, 220, 0.3);
+    cursor: pointer;
+}
+
+
+
+.pokemon-heading {
     height: 400px;
     width: 230px;
+}
+
+.pokemon-img {
+    height: 190px;
+    width: 190px;
 }
