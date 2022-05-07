@@ -30,9 +30,9 @@ body {
     border: 2px groove rgba(220, 220, 220, 0.3);
     box-shadow: 6px 0 12px 0 rgba(220, 220, 220, 0.3);
     cursor: pointer;
-    height: 400px;
     width: 230px;
-    color: rgba(230, 230, 230, 1)
+    color: rgba(230, 230, 230, 1);
+    border-radius: 12px;
     
 }
 
@@ -127,3 +127,30 @@ body {
     font-size: 1.2em;
 }
 
+.dialog-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#pokemonTile {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.d-none {
+    display: none;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+  }

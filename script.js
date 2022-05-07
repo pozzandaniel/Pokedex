@@ -1,5 +1,5 @@
 
-async function loadPokemon() {
+async function loadPokemons() {
     for (let i = 1; i < 26; i++) {
         
         let pokemon = i;
@@ -18,7 +18,7 @@ function renderPokemons(responseAsJSON, i){
     let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
     let type = responseAsJSON['types'][0]['type']['name'];
     pokemonContainer.innerHTML += `
-    <div id = "pokemon-${i}" class = pokemon-card>
+    <div onclick = "showCard(${i})" id = "pokemon-${i}" class="pokemon-card">
         <div class = pokemon-heading>
             <h2 class = "text_matt_background text-flex no-margin-top-bottom text-capitalize">${name}<span class="text-white-little">#${i}</span></h2>
             <img class = "pokemon-img" src="${image}">
@@ -58,6 +58,38 @@ function renderPokemonButton() {
     `;
 }
 
+async function showCard(i) {
+    await loadCard(i);
+    let name = responseAsJSON['forms'][0]['name'];
+    let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
+    let type = responseAsJSON['types'][0]['type']['name'];
+    document.getElementById('dialogContainer').classList.remove('d-none');
+    document.getElementById('pokemonTile').innerHTML = `
+    <h2 class="text-capitalize">${name}</h2>
+    <img class="pokemon-img" src="${image}">
+    <h2 class="text-capitalize">${type}</h2>
+    `;
+   document.getElementById('body').classList.add('stop-scrolling');
+    
+}
+
+async function loadCard(i) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+    let response = await fetch(url);
+    return responseAsJSON = await response.json();
+
+}
+
+function closeCard() {
+    document.getElementById('dialogContainer').classList.add('d-none');
+    document.getElementById('body').classList.remove('stop-scrolling');
+
+
+}
+
+function doNotCloseCard(event) {
+    event.stopPropagation();
+}
 
 function fillCardPokemon(object){
     let name = object['forms'][0]['name'];

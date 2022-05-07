@@ -11,10 +11,15 @@
     <script src="./script.js"></script>
     <title>Pokedex</title>
 </head>
-<body onload="loadPokemon()">
+<body id="body" onload="loadPokemons()">
     <div class="nav"></div>
     <div id="headContainer">
         <div id="pokemonContainer"></div>
+    </div>
+    <div id="dialogContainer" class="dialog-container d-none" onclick="closeCard()">
+        <div id="pokemonTile" onclick="doNotCloseCard(event)">
+
+        </div>
     </div>
     
   
