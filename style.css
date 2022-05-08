@@ -190,11 +190,31 @@ body {
     background-image: url('./img/background.jpg');
     background-size: cover;
     background-position: bottom;
-    padding: 0 20px;
 }
 
 .back-icon {
     filter: invert(1);
     height: 20px;
     cursor: pointer;
+}
+
+#pokemonAttributes {
+    background-image: url('./img/background2.jpg');
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    top: -5px;
+    border-radius: 12px;
+}
+
+.pokemonTile-child {
+    padding: 12px;
+}
+
+.attribute-name {
+    margin-bottom: 0 !important;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 0 12px;
+    border-radius: 6px;
 }

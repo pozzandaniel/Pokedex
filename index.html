@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
     <title>Pokedex</title>
@@ -18,7 +20,8 @@
     </div>
     <div id="dialogContainer" class="dialog-container d-none" onclick="closeCard()">
         <div id="pokemonTile" onclick="doNotCloseCard(event)">
-            <div id="pokemonHead"></div>
+            <div id="pokemonHead" class="pokemonTile-child"></div>
+            <div id="pokemonAttributes" class="pokemonTile-child"></div>
 
         </div>
     </div>

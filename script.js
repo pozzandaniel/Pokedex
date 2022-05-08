@@ -1,7 +1,6 @@
 
 async function loadPokemons() {
     for (let i = 1; i < 26; i++) {
-        
         let pokemon = i;
         let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
         let response = await fetch(url);
@@ -79,6 +78,7 @@ async function showCard(i) {
     let pokemonTile = document.getElementById('pokemonTile');
     document.getElementById('pokemonHead').innerHTML = fillTopCard(i, name, image, type);
     colorTopCard(type);
+    fillBottomCard(i);
     document.getElementById('body').classList.add('stop-scrolling');
     document.getElementById('pokeballImg').classList.add('d-none');
     
@@ -142,16 +142,43 @@ function colorTopCard(type){
     }
 }
 
+function fillBottomCard(i){
+    let stats = responseAsJSON['stats'];
+    let pokemonAttributes = document.getElementById('pokemonAttributes');
+    for(let i = 0; i < stats.length; i++){
+        let attributeName = responseAsJSON['stats'][i]['stat']['name'];
+        let attributeValue = responseAsJSON['stats'][i]['base_stat'];
+        pokemonAttributes.innerHTML += `
+        <p class="attribute-name">${attributeName} :</p>
+        <div class="progress">
+         <div id="progressBar-${i}" class="progress-bar" role="progressbar" style="width: ${attributeValue}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">${attributeValue}</div>
+        </div>
+        `;
+        changeColorProgressBar(i, attributeValue);
+    }  
+}
+
+function changeColorProgressBar(i, attributeValue) {
+    if(attributeValue <= 36){
+        document.getElementById('progressBar-'+ i).style = `background-color: red; width: ${attributeValue}%;`;
+    }
+    if(attributeValue <= 69 && attributeValue >= 37){
+        document.getElementById('progressBar-'+ i).style = `background-color: orange; width: ${attributeValue}%;`;
+    }
+    if(attributeValue >= 70){
+        document.getElementById('progressBar-'+ i).style = `background-color: green; width: ${attributeValue}%;`;
+    }
+    
+}
 
 function closeCard() {
     document.getElementById('dialogContainer').classList.add('d-none');
     document.getElementById('body').classList.remove('stop-scrolling');
     document.getElementById('pokemonTile').innerHTML = `
-    <div id="pokemonHead"></div>
+    <div class="pokemonTile-child" id="pokemonHead"></div>
+    <div class="pokemonTile-child" id="pokemonAttributes"></div>
     `;
     document.getElementById('pokeballImg').classList.remove('d-none');
-    
-    
 }
 
 function doNotCloseCard(event) {
@@ -192,24 +219,3 @@ function uncolorHeart(){
 }
 
 
-// function fillCardPokemon(object){
-    //     let name = object['forms'][0]['name'];
-//     let pokemonHeading = document.getElementById('pokemonHeading');
-//     let imgPokemon = object['sprites']['other']['dream_world']['front_default'];
-//     let pokemonType = object['types'][0]['type']['name'];
-//     pokemonHeading.innerHTML += `<h2>${name}</h2> 
-//     <img src="${imgPokemon}">
-//     `;
-//     pokemonHeading.innerHTML += `<h3>${pokemonType}</h3>`;    
-// }
-
-function fillAttributesPokemon(object) {
-    let pokemonOutline = document.getElementById('pokemonOutline');
-    let stats = object['stats'];
-    for(let i = 0; i < stats.length; i++){
-        let attributeName = object['stats'][i]['stat']['name'];
-        let attributeValue = object['stats'][i]['base_stat'];
-        pokemonOutline.innerHTML += `<h3>${attributeName} : ${attributeValue}</h3> `;
-
-    }
-}
