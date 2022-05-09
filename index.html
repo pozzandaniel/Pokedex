@@ -12,9 +12,14 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
     <title>Pokedex</title>
+    <link rel="icon" type="image/x-icon" href="./img/pokeball.png">
 </head>
 <body id="body" onload="loadPokemons()">
-    <div class="nav"></div>
+    <div class="nav">
+        <a href="./index.html"><img class="nav-pokemon" src="./img/pikachu_home.png" alt=""></a>
+        <div class="input-container"><input id="searchValue" type="text"><img onclick="searchPokemon()" class="search-button" src="./img/pokeball.png" alt=""></div>
+        <img onclick="searchFavourites()" class="nav-img" src="./img/heart-solid.svg" alt="">
+    </div>
     <div id="headContainer">
         <div id="pokemonContainer"></div>
     </div>

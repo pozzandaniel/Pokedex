@@ -1,23 +1,32 @@
+let numberPokemons = 26;
+let startCount = 1;
 
 async function loadPokemons() {
-    for (let i = 1; i < 26; i++) {
+    for (let i = startCount; i < numberPokemons; i++) {
         let pokemon = i;
         let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
         let response = await fetch(url);
-        let responseAsJSON = await response.json();
+        let responseAsJSON = await response.json()
         renderPokemons(responseAsJSON, i);
     }
-    renderPokemonButton();
-    
 
+    if (startCount == 1) {
+        renderPokemonButton();
+    }
 }
 
 function renderPokemons(responseAsJSON, i){
+    document.getElementById('headContainer').classList.remove('empty-archive');
     let pokemonContainer = document.getElementById('pokemonContainer');
     let name = responseAsJSON['forms'][0]['name'];
     let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
     let type = responseAsJSON['types'][0]['type']['name'];
-    pokemonContainer.innerHTML += `
+    pokemonContainer.innerHTML +=  templateRenderPokemons(i, name, image, type);
+    colorPokemonTypology(type, i);
+}
+
+function templateRenderPokemons(i, name, image, type){
+    return `
     <div onclick = "showCardAnimation(${i})" id = "pokemon-${i}" class="pokemon-card">
         <div class = pokemon-heading>
             <h2 class = "text_matt_background text-flex width-90 no-margin-top-bottom text-capitalize">${name}<span class="text-white-little">#${i}</span></h2>
@@ -26,8 +35,6 @@ function renderPokemons(responseAsJSON, i){
         </div>
     </div>
     `;
-    colorPokemonTypology(type, i);
-  
 }
 
 function colorPokemonTypology(type, i) {
@@ -56,8 +63,14 @@ function colorPokemonTypology(type, i) {
 function renderPokemonButton() {
     let headContainer = document.getElementById('headContainer');
     headContainer.innerHTML += `
-    <button class="pokemon-button">Neue Pokemon laden</button>
+    <button onclick="loadNeuPokemons()" id="pokemonButton" class="pokemon-button">Neue Pokemon laden</button>
     `;
+}
+
+function loadNeuPokemons(){
+    numberPokemons = numberPokemons + 26;
+    startCount = startCount + 26;
+    loadPokemons();
 }
 
 function showCardAnimation(i){
@@ -218,4 +231,56 @@ function uncolorHeart(){
     heartIcon.src = './img/heart-regular.svg';
 }
 
+async function searchPokemon() {
+    let numbersOfPokemon = 0;
+    document.getElementById('pokemonButton').classList.remove('d-none');
+    let searchValue = document.getElementById('searchValue').value.toLowerCase();
+    document.getElementById('pokemonContainer').innerHTML = '';
+    for(let i = 1; i < 26; i++ ){
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        let response = await fetch(url);
+        let responseAsJSON = await response.json();
+        let name = responseAsJSON['forms'][0]['name'];
+        if(name.includes(searchValue)){
+            renderPokemons(responseAsJSON, i)
+            numbersOfPokemon++;
+        }   
+    }
+    checkNumbersOfPokemon(numbersOfPokemon);
+    document.getElementById('pokemonButton').classList.add('d-none');
 
+}
+
+function checkNumbersOfPokemon(numbersOfPokemon){
+    if(numbersOfPokemon <= 12){
+        document.getElementById('headContainer').classList.add('height-100vh');
+    } else {
+        document.getElementById('headContainer').classList.remove('height-100vh');
+    }
+}
+
+async function searchFavourites() {
+    let numbersOfPokemon = 0;
+    document.getElementById('pokemonContainer').innerHTML = '';
+    for(let i = 1; i < 26; i++ ){
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        let response = await fetch(url);
+        let responseAsJSON = await response.json();
+        let name = responseAsJSON['forms'][0]['name'];
+        let indexName = favoritePokemons['names'].indexOf(name);
+        if(indexName != -1){
+            renderPokemons(responseAsJSON, i)
+            numbersOfPokemon++;
+        } 
+    }
+    document.getElementById('pokemonButton').classList.add('d-none');
+    emptyFavourites();
+    checkNumbersOfPokemon(numbersOfPokemon);
+}
+
+function emptyFavourites(){
+    if(favoritePokemons['names'].length == 0){
+        document.getElementById('headContainer').classList.add('empty-archive');
+        document.getElementById('pokemonContainer').innerHTML = '<h2 class="text_matt_background text-white-little">Hier ist noch kein Pokemon verfügbar!</h2>';
+    }  
+}

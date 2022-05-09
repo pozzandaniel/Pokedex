@@ -1,12 +1,45 @@
 body {
     margin: 0;
     font-family: 'Philosopher', sans-serif;
-   
+    
+}
+
+.height-100vh{
+    height: 100vh !important;
 }
 .nav {
     height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
+.nav-img {
+    height: 40px;
+    filter: invert(39%) sepia(55%) saturate(1483%) hue-rotate(323deg) brightness(96%) contrast(89%);
+    cursor: pointer;
+}
+
+.nav-pokemon {
+    height: 80px;
+    position: relative;
+}
+
+.nav-pokeball {
+    height: 70px;
+    z-index: -1;
+}
+
+.input-container input {
+    outline: none;
+    border-radius: 12px;
+}
+
+.search-button {
+    height: 40px;
+    cursor: pointer;
+    margin: 12px;
+}
 #headContainer {
     background-image: url('./img/background.jpg');
     background-size: cover;
@@ -14,6 +47,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+   
 }
 
 #pokemonContainer {
@@ -21,9 +56,6 @@ body {
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-  
-    
-
 }
 
 .pokemon-card {
@@ -45,6 +77,7 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 1.5em !important;
    
 }
 
@@ -61,9 +94,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-
-   
+    align-items: center; 
+}
+.empty-archive {
+    background-image: url('./img/empty.png') !important;
+    background-size: contain !important;
+    background-position: center !important; 
+    height:100vh !important;
+    background-repeat: no-repeat !important; 
+    display: flex !important; 
+    justify-content: center !important; 
+    align-items: center !important;
 }
 
 .pokemon-img {
@@ -77,6 +118,7 @@ body {
     border-radius: 6px;
     padding: 2px;
     text-align: center;
+    font-size: 1.5em !important;
 }
 
 .text-capitalize {
@@ -190,6 +232,7 @@ body {
     background-image: url('./img/background.jpg');
     background-size: cover;
     background-position: bottom;
+    width: 300px;
 }
 
 .back-icon {
@@ -217,4 +260,16 @@ body {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 0 12px;
     border-radius: 6px;
+}
+
+.progress-bar {
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 1.3em;
+}
+
+@media (max-width: 450px){
+    .input-container input {
+        width: 120px;
+    }
 }
