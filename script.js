@@ -56,6 +56,40 @@ function colorPokemonTypology(type, i) {
     if (type == 'electric') {
         document.getElementById(`pokemon-${i}`).classList.add('electric');
     }
+    if (type == 'ground') {
+        document.getElementById(`pokemon-${i}`).classList.add('ground');
+    }
+    if (type == 'fairy') {
+        document.getElementById(`pokemon-${i}`).classList.add('fairy');
+    }
+    if (type == 'fighting') {
+        document.getElementById(`pokemon-${i}`).classList.add('fighting');
+    }
+    if (type == 'psychic') {
+        document.getElementById(`pokemon-${i}`).classList.add('psychic');
+    }
+    if (type == 'rock') {
+        document.getElementById(`pokemon-${i}`).classList.add('rock');
+    }
+    if (type == 'ice') {
+        document.getElementById(`pokemon-${i}`).classList.add('ice');
+    }
+    if (type == 'ghost') {
+        document.getElementById(`pokemon-${i}`).classList.add('ghost');
+    }
+    if (type == 'flying') {
+        document.getElementById(`pokemon-${i}`).classList.add('flying');
+    }
+    if (type == 'dragon') {
+        document.getElementById(`pokemon-${i}`).classList.add('dragon');
+    }
+    if (type == 'dark') {
+        document.getElementById(`pokemon-${i}`).classList.add('dark');
+    }
+    if (type == 'steel') {
+        document.getElementById(`pokemon-${i}`).classList.add('steel');
+    }
+
 
 }
 
@@ -153,6 +187,39 @@ function colorTopCard(type){
     if (type == 'electric') {
         document.getElementById(`pokemonHead`).classList.add('electric');
     }
+    if (type == 'ground') {
+        document.getElementById(`pokemonHead`).classList.add('ground');
+    }
+    if (type == 'fairy') {
+        document.getElementById(`pokemonHead`).classList.add('fairy');
+    }
+    if (type == 'fighting') {
+        document.getElementById(`pokemonHead`).classList.add('fighting');
+    }
+    if (type == 'psychic') {
+        document.getElementById(`pokemonHead`).classList.add('psychic');
+    }
+    if (type == 'rock') {
+        document.getElementById(`pokemonHead`).classList.add('rock');
+    }
+    if (type == 'ice') {
+        document.getElementById(`pokemonHead`).classList.add('ice');
+    }
+    if (type == 'ghost') {
+        document.getElementById(`pokemonHead`).classList.add('ghost');
+    }
+    if (type == 'flying') {
+        document.getElementById(`pokemonHead`).classList.add('flying');
+    }
+    if (type == 'dragon') {
+        document.getElementById(`pokemonHead`).classList.add('dragon');
+    }
+    if (type == 'dark') {
+        document.getElementById(`pokemonHead`).classList.add('dark');
+    }
+    if (type == 'steel') {
+        document.getElementById(`pokemonHead`).classList.add('steel');
+    }
 }
 
 function fillBottomCard(i){
@@ -236,7 +303,7 @@ async function searchPokemon() {
     document.getElementById('pokemonButton').classList.remove('d-none');
     let searchValue = document.getElementById('searchValue').value.toLowerCase();
     document.getElementById('pokemonContainer').innerHTML = '';
-    for(let i = 1; i < 26; i++ ){
+    for(let i = startCount; i < numberPokemons; i++ ){
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         let responseAsJSON = await response.json();
