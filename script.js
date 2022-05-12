@@ -1,5 +1,7 @@
 let numberPokemons = 26;
 let startCount = 1;
+let amountPokemons = 0;
+
 
 async function loadPokemons() {
     for (let i = startCount; i < numberPokemons; i++) {
@@ -8,11 +10,13 @@ async function loadPokemons() {
         let response = await fetch(url);
         let responseAsJSON = await response.json()
         renderPokemons(responseAsJSON, i);
+        amountPokemons++;
     }
 
     if (startCount == 1) {
         renderPokemonButton();
     }
+    
 }
 
 function renderPokemons(responseAsJSON, i){
@@ -37,60 +41,9 @@ function templateRenderPokemons(i, name, image, type){
     `;
 }
 
+
 function colorPokemonTypology(type, i) {
-    if(type == 'grass') {
-        document.getElementById(`pokemon-${i}`).classList.add('grass');
-    }
-    if(type == 'fire') {
-        document.getElementById(`pokemon-${i}`).classList.add('fire');
-    }
-    if(type == 'water') {
-        document.getElementById(`pokemon-${i}`).classList.add('water');
-    }
-    if(type == 'bug') {
-        document.getElementById(`pokemon-${i}`).classList.add('bug');
-    }
-    if (type == 'poison') {
-        document.getElementById(`pokemon-${i}`).classList.add('poison');
-    }
-    if (type == 'electric') {
-        document.getElementById(`pokemon-${i}`).classList.add('electric');
-    }
-    if (type == 'ground') {
-        document.getElementById(`pokemon-${i}`).classList.add('ground');
-    }
-    if (type == 'fairy') {
-        document.getElementById(`pokemon-${i}`).classList.add('fairy');
-    }
-    if (type == 'fighting') {
-        document.getElementById(`pokemon-${i}`).classList.add('fighting');
-    }
-    if (type == 'psychic') {
-        document.getElementById(`pokemon-${i}`).classList.add('psychic');
-    }
-    if (type == 'rock') {
-        document.getElementById(`pokemon-${i}`).classList.add('rock');
-    }
-    if (type == 'ice') {
-        document.getElementById(`pokemon-${i}`).classList.add('ice');
-    }
-    if (type == 'ghost') {
-        document.getElementById(`pokemon-${i}`).classList.add('ghost');
-    }
-    if (type == 'flying') {
-        document.getElementById(`pokemon-${i}`).classList.add('flying');
-    }
-    if (type == 'dragon') {
-        document.getElementById(`pokemon-${i}`).classList.add('dragon');
-    }
-    if (type == 'dark') {
-        document.getElementById(`pokemon-${i}`).classList.add('dark');
-    }
-    if (type == 'steel') {
-        document.getElementById(`pokemon-${i}`).classList.add('steel');
-    }
-
-
+    document.getElementById(`pokemon-${i}`).classList.add(type);
 }
 
 
@@ -102,8 +55,8 @@ function renderPokemonButton() {
 }
 
 function loadNeuPokemons(){
+    startCount = numberPokemons;
     numberPokemons = numberPokemons + 26;
-    startCount = startCount + 26;
     loadPokemons();
 }
 
@@ -122,7 +75,6 @@ async function showCard(i) {
     let name = responseAsJSON['forms'][0]['name'];
     let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
     let type = responseAsJSON['types'][0]['type']['name'];
-    let pokemonTile = document.getElementById('pokemonTile');
     document.getElementById('pokemonHead').innerHTML = fillTopCard(i, name, image, type);
     colorTopCard(type);
     fillBottomCard(i);
@@ -166,60 +118,10 @@ function checkFavourite(name) {
     }
 }
     
-    
+   
     
 function colorTopCard(type){
-    if(type == 'grass') {
-        document.getElementById(`pokemonHead`).classList.add('grass');
-    }
-    if(type == 'fire') {
-        document.getElementById(`pokemonHead`).classList.add('fire');
-    }
-    if(type == 'water') {
-        document.getElementById(`pokemonHead`).classList.add('water');
-    }
-    if(type == 'bug') {
-        document.getElementById(`pokemonHead`).classList.add('bug');
-    }
-    if (type == 'poison') {
-        document.getElementById(`pokemonHead`).classList.add('poison');
-    }
-    if (type == 'electric') {
-        document.getElementById(`pokemonHead`).classList.add('electric');
-    }
-    if (type == 'ground') {
-        document.getElementById(`pokemonHead`).classList.add('ground');
-    }
-    if (type == 'fairy') {
-        document.getElementById(`pokemonHead`).classList.add('fairy');
-    }
-    if (type == 'fighting') {
-        document.getElementById(`pokemonHead`).classList.add('fighting');
-    }
-    if (type == 'psychic') {
-        document.getElementById(`pokemonHead`).classList.add('psychic');
-    }
-    if (type == 'rock') {
-        document.getElementById(`pokemonHead`).classList.add('rock');
-    }
-    if (type == 'ice') {
-        document.getElementById(`pokemonHead`).classList.add('ice');
-    }
-    if (type == 'ghost') {
-        document.getElementById(`pokemonHead`).classList.add('ghost');
-    }
-    if (type == 'flying') {
-        document.getElementById(`pokemonHead`).classList.add('flying');
-    }
-    if (type == 'dragon') {
-        document.getElementById(`pokemonHead`).classList.add('dragon');
-    }
-    if (type == 'dark') {
-        document.getElementById(`pokemonHead`).classList.add('dark');
-    }
-    if (type == 'steel') {
-        document.getElementById(`pokemonHead`).classList.add('steel');
-    }
+    document.getElementById(`pokemonHead`).classList.add(type);
 }
 
 function fillBottomCard(i){
@@ -245,8 +147,14 @@ function changeColorProgressBar(i, attributeValue) {
     if(attributeValue <= 69 && attributeValue >= 37){
         document.getElementById('progressBar-'+ i).style = `background-color: orange; width: ${attributeValue}%;`;
     }
-    if(attributeValue >= 70){
+    if(attributeValue >= 70 && attributeValue <110){
         document.getElementById('progressBar-'+ i).style = `background-color: green; width: ${attributeValue}%;`;
+    }
+    if(attributeValue >= 110 && attributeValue < 150){
+        document.getElementById('progressBar-'+ i).style = `background-color: silver; width: ${attributeValue}%;`;
+    }
+    if(attributeValue >= 150){
+        document.getElementById('progressBar-'+ i).style = `background-color: blue; width: ${attributeValue}%;`;
     }
     
 }
@@ -287,7 +195,13 @@ function addFavoritePokemon(i){
         favoritePokemons['status'].splice(indexName, 1);
         uncolorHeart();
     }
+    // saveArrayInLocalStorage();
 }
+
+// function saveArrayInLocalStorage() {
+//     let pokemonAsText = JSON.stringify(favoritePokemons);
+//     localStorage.setItem('favoritePokemons', pokemonAsText);
+// }
 
 function colorHeart(){
     let heartIcon = document.getElementById('heartIcon');
@@ -298,38 +212,79 @@ function uncolorHeart(){
     heartIcon.src = './img/heart-regular.svg';
 }
 
-async function searchPokemon() {
-    let numbersOfPokemon = 0;
+function searchPokemon() {
+    amountPokemons = 0;
     document.getElementById('pokemonButton').classList.remove('d-none');
     let searchValue = document.getElementById('searchValue').value.toLowerCase();
     document.getElementById('pokemonContainer').innerHTML = '';
+    searchPokemonsInAPI(searchValue);
+    document.getElementById('pokemonButton').classList.add('d-none');
+}
+
+async function searchPokemonsInAPI(searchValue){
     for(let i = startCount; i < numberPokemons; i++ ){
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         let responseAsJSON = await response.json();
         let name = responseAsJSON['forms'][0]['name'];
-        if(name.includes(searchValue)){
-            renderPokemons(responseAsJSON, i)
-            numbersOfPokemon++;
-        }   
+        getSearchedPokemon(name, searchValue, responseAsJSON, i);
+        
     }
-    checkNumbersOfPokemon(numbersOfPokemon);
-    document.getElementById('pokemonButton').classList.add('d-none');
-
 }
 
-function checkNumbersOfPokemon(numbersOfPokemon){
-    if(numbersOfPokemon <= 12){
+function getSearchedPokemon(name, searchValue, responseAsJSON, i){
+    if(name.includes(searchValue)){
+        renderPokemons(responseAsJSON, i)
+        amountPokemons++;
+        checkNumbersOfPokemon();
+    }
+}
+
+function checkNumbersOfPokemon(){
+    if(amountPokemons <= 12){
         document.getElementById('headContainer').classList.add('height-100vh');
     } else {
         document.getElementById('headContainer').classList.remove('height-100vh');
     }
+
+   
 }
 
-async function searchFavourites() {
-    let numbersOfPokemon = 0;
+let width = 461;
+
+window.onresize = responseBackgroundImg;
+responseBackgroundImg();
+
+function responseBackgroundImg(){
+    if(window.innerWidth < 461 || amountPokemons >=12){
+        document.getElementById('headContainer').classList.remove('height-100vh');
+    } else if(amountPokemons < 12 && window.innerWidth > 461) {
+        document.getElementById('headContainer').classList.add('height-100vh'); 
+    }
+    if(amountPokemons < 3){
+        document.getElementById('headContainer').classList.add('height-100vh'); 
+    }
+}
+
+
+
+
+
+
+
+function searchFavourites() {
+    amountPokemons = 0;
     document.getElementById('pokemonContainer').innerHTML = '';
-    for(let i = 1; i < 26; i++ ){
+    searchFavouritesInAPI();
+    document.getElementById('pokemonButton').classList.add('d-none');
+    emptyFavourites();
+  
+}
+
+
+
+async function searchFavouritesInAPI(){
+    for(let i = startCount; i < numberPokemons; i++ ){
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         let responseAsJSON = await response.json();
@@ -337,12 +292,10 @@ async function searchFavourites() {
         let indexName = favoritePokemons['names'].indexOf(name);
         if(indexName != -1){
             renderPokemons(responseAsJSON, i)
-            numbersOfPokemon++;
+            amountPokemons++;
+            checkNumbersOfPokemon();
         } 
     }
-    document.getElementById('pokemonButton').classList.add('d-none');
-    emptyFavourites();
-    checkNumbersOfPokemon(numbersOfPokemon);
 }
 
 function emptyFavourites(){

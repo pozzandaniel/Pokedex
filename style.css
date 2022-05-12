@@ -332,6 +332,8 @@ body {
     font-size: 1.3em;
 }
 
+
+
 @media (max-width: 450px){
     .input-container input {
         width: 120px;
