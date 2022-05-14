@@ -2,31 +2,31 @@ let numberPokemons = 26;
 let startCount = 1;
 let amountPokemons = 0;
 
-
+// Pokemons are loaded from API
 async function loadPokemons() {
     for (let i = startCount; i < numberPokemons; i++) {
-        let pokemon = i;
+        let pokemon = i; //index of pokemon, it is always increased of 1
         let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-        let response = await fetch(url);
-        let responseAsJSON = await response.json()
-        renderPokemons(responseAsJSON, i);
-        amountPokemons++;
+        let response = await fetch(url); //the information is taken from the url
+        let responseAsJSON = await response.json() //the text is converted in an object
+        renderPokemons(responseAsJSON, i); //the container with ID pokemonContainer is filled with the pokemon present in the API request
+        amountPokemons++; // each loaded pokemon increase this variable of 1. At the beginning this value is 0.
     }
 
     if (startCount == 1) {
-        renderPokemonButton();
+        renderPokemonButton(); //if it is the first time that the page is loaded, a button at the end of the page is shown. It avoids that every time new pokemons are called other buttons are shown under the first.
     }
     
 }
 
 function renderPokemons(responseAsJSON, i){
-    document.getElementById('headContainer').classList.remove('empty-archive');
+    document.getElementById('headContainer').classList.remove('empty-archive'); // when at least a pokemon in the favorite list is added, the function remove the class that rend an image of an empty list
     let pokemonContainer = document.getElementById('pokemonContainer');
-    let name = responseAsJSON['forms'][0]['name'];
-    let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
-    let type = responseAsJSON['types'][0]['type']['name'];
+    let name = responseAsJSON['forms'][0]['name']; // that's represent the name of each pokemon present in the API request
+    let image = responseAsJSON['sprites']['other']['dream_world']['front_default']; //that's the image of the pokemon
+    let type = responseAsJSON['types'][0]['type']['name']; //it represents the type of the pokemon, for example fire, grass, water...
     pokemonContainer.innerHTML +=  templateRenderPokemons(i, name, image, type);
-    colorPokemonTypology(type, i);
+    colorPokemonTypology(type, i); //it gives a color to a pokemon card, it depends from the pokemon typology.
 }
 
 function templateRenderPokemons(i, name, image, type){
@@ -53,33 +53,36 @@ function renderPokemonButton() {
     <button onclick="loadNeuPokemons()" id="pokemonButton" class="pokemon-button">Neue Pokemon laden</button>
     `;
 }
-
+// at the beginning only 25 pokemons are loaded, if the button under the pokemon container is clicked, other 26 pokemon are shown
 function loadNeuPokemons(){
     startCount = numberPokemons;
     numberPokemons = numberPokemons + 26;
     loadPokemons();
 }
 
+// By clicking of a pokemon card, a bigger card is presented. This new card has more information about the selected pokemon.
+// By opening the new card an animation with a pokeball starts.
+
 function showCardAnimation(i){
-    document.getElementById('dialogContainer').classList.remove('d-none');
-    let pokemonTile = document.getElementById('pokemonTile');
-    pokemonTile.style = 'background-color: transparent;';
+    document.getElementById('dialogContainer').classList.remove('d-none'); // the class with display: none on the full sized dark background container is removed
+    let pokemonTile = document.getElementById('pokemonTile');  
+    pokemonTile.style = 'background-color: transparent;';   //the box inside the dark container becomes transparent, so only the image with the pokeball is visible
     pokemonTile.innerHTML += `
     <img id="pokeballImg" class= "pokemonball-img" src="./img/pokemon_ball.png">
     `; 
-    setTimeout(showCard, 1000, i);
+    setTimeout(showCard, 1000, i);  //at the end of the animation with the pokeball, after one second, the card of the pokemon appears
 }
 
 async function showCard(i) {
-    await loadCard(i);  
+    await loadCard(i);  // the information of the selected pokemon are recovered from the API. The information about the pokemon index "i" come from the renderPokemons(i) and the showCardAnimation(i) functions
     let name = responseAsJSON['forms'][0]['name'];
     let image = responseAsJSON['sprites']['other']['dream_world']['front_default'];
     let type = responseAsJSON['types'][0]['type']['name'];
     document.getElementById('pokemonHead').innerHTML = fillTopCard(i, name, image, type);
     colorTopCard(type);
     fillBottomCard(i);
-    document.getElementById('body').classList.add('stop-scrolling');
-    document.getElementById('pokeballImg').classList.add('d-none');
+    document.getElementById('body').classList.add('stop-scrolling'); // when the pokemon card is offen, the scroll property of the website is disabled until the card is closed 
+    document.getElementById('pokeballImg').classList.add('d-none');  // the image of the pokeball used in the animation disappears
     
 }
 
@@ -87,7 +90,7 @@ async function showCard(i) {
 
 
 function fillTopCard(i, name, image, type) {
-    let heartIcon = checkFavourite(name);
+    let heartIcon = checkFavourite(name);   //This function check of the pokemon are already selected as favourite.
     return `
     <h2 class = "text_matt_background text-flex width-100 no-margin-top-bottom">
     <span><img onclick="closeCard()" class="back-icon" src="./img/reply-solid.svg"></span>
@@ -102,15 +105,18 @@ function fillTopCard(i, name, image, type) {
     `;
 }
 
+// Status "1" means that the pokemon is in the favourite list. If none the status is "0"
+
 let favoritePokemons = {
     'names': [],
     'status': []
 }
 
+// If the pokemon is in the favourite list the index isn't "-1". In that case an image with a full colored heart is shown on the top of the opened card
+// if the index is "-1" the pomeon isn't under the favourite and instead a full-colored heart a linear heart appears
 
 function checkFavourite(name) {
     let indexName = favoritePokemons['names'].indexOf(name);
-    console.log(indexName);
     if(indexName == -1){
         return heartIcon = './img/heart-regular.svg';
     } else {
@@ -123,6 +129,8 @@ function checkFavourite(name) {
 function colorTopCard(type){
     document.getElementById(`pokemonHead`).classList.add(type);
 }
+
+// Through this function other informations about the pokemon are shown at the bottom of the card. The progressbar is from bootstrapt.
 
 function fillBottomCard(i){
     let stats = responseAsJSON['stats'];
@@ -139,6 +147,8 @@ function fillBottomCard(i){
         changeColorProgressBar(i, attributeValue);
     }  
 }
+
+// the progress-bar changes color according to the intensity of the attribute
 
 function changeColorProgressBar(i, attributeValue) {
     if(attributeValue <= 36){
@@ -169,6 +179,8 @@ function closeCard() {
     document.getElementById('pokeballImg').classList.remove('d-none');
 }
 
+// This function avoids the closure of the card without intention by clicking the card itself. The closure happens when the user click the dark background of the card, that is the container of this or by clicking the closure taste.
+
 function doNotCloseCard(event) {
     event.stopPropagation();
 }
@@ -180,7 +192,7 @@ async function loadCard(i) {
     
 }
 
-
+// By selecting the heart in the Pokemon card. The name of the Pokemon and his new status are pushed in the object favoritePokemons.
 
 
 function addFavoritePokemon(i){
@@ -212,6 +224,8 @@ function uncolorHeart(){
     heartIcon.src = './img/heart-regular.svg';
 }
 
+// The typing in the search input is converted in lowercase and searched in the database through the function "name.includes(searchValue)"
+
 function searchPokemon() {
     amountPokemons = 0;
     document.getElementById('pokemonButton').classList.remove('d-none');
@@ -222,7 +236,7 @@ function searchPokemon() {
 }
 
 async function searchPokemonsInAPI(searchValue){
-    for(let i = startCount; i < numberPokemons; i++ ){
+    for(let i = 1; i < numberPokemons; i++ ){
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         let responseAsJSON = await response.json();
@@ -240,29 +254,39 @@ function getSearchedPokemon(name, searchValue, responseAsJSON, i){
     }
 }
 
+// If the number of loaded pokemon are less then 12 the headContainer with the pokemon is 100 vh height to avoid the forming of a white
+// space under the container. The same happens when 100 vh height is not removed with more then 12 pokemons
+
 function checkNumbersOfPokemon(){
     if(amountPokemons <= 12){
         document.getElementById('headContainer').classList.add('height-100vh');
     } else {
         document.getElementById('headContainer').classList.remove('height-100vh');
     }
+    responseBackgroundImg();
 
    
 }
 
-let width = 461;
+// This function adjust the responsiveness of the webpages with 461px and 690px depending of the number of card loaded, 
+// for the same reason above
+
+let width = [461, 690];
 
 window.onresize = responseBackgroundImg;
 responseBackgroundImg();
 
 function responseBackgroundImg(){
-    if(window.innerWidth < 461 || amountPokemons >=12){
+    if(window.innerWidth < width[0] || amountPokemons >=12){
         document.getElementById('headContainer').classList.remove('height-100vh');
-    } else if(amountPokemons < 12 && window.innerWidth > 461) {
+    } else if(amountPokemons < 12 && window.innerWidth > width[0]) {
         document.getElementById('headContainer').classList.add('height-100vh'); 
     }
     if(amountPokemons < 3){
         document.getElementById('headContainer').classList.add('height-100vh'); 
+    }
+    if(amountPokemons > 4 && window.innerWidth < width[1]){
+        document.getElementById('headContainer').classList.remove('height-100vh');
     }
 }
 
@@ -284,7 +308,7 @@ function searchFavourites() {
 
 
 async function searchFavouritesInAPI(){
-    for(let i = startCount; i < numberPokemons; i++ ){
+    for(let i = 1; i < numberPokemons; i++ ){
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         let responseAsJSON = await response.json();
